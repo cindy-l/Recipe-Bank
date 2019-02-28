@@ -5,9 +5,7 @@
  */
 package UI;
 
-import java.awt.List;
-import java.sql.SQLException;
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 /**

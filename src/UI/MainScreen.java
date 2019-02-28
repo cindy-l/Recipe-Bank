@@ -5,9 +5,12 @@
  */
 package UI;
 
+
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import java.sql.*;
+
 
 /**
  *
@@ -84,7 +87,9 @@ public class MainScreen extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         EditButton = new javax.swing.JButton();
-        SearchField = new javax.swing.JTextField();
+        searchField = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        searchResultsField = new javax.swing.JTextArea();
 
         jScrollPane3.setViewportView(jEditorPane2);
 
@@ -99,7 +104,6 @@ public class MainScreen extends javax.swing.JFrame {
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jTextField1.setText("Recipe Repertoire");
-
 
         DeleteButton.setBackground(new java.awt.Color(255, 0, 51));
         DeleteButton.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -141,45 +145,48 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
 
-        SearchField.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        SearchField.setText("Search");
-        SearchField.addFocusListener(new java.awt.event.FocusAdapter() {
+        searchField.setText("Search...");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                SearchFieldFocusGained(evt);
+                searchFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                SearchFieldFocusLost(evt);
+                searchFieldFocusLost(evt);
             }
         });
-        SearchField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchFieldActionPerformed(evt);
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchFieldKeyPressed(evt);
             }
         });
+
+        searchResultsField.setColumns(20);
+        searchResultsField.setRows(5);
+        jScrollPane2.setViewportView(searchResultsField);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(AddButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
-                .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AddButton1)
+                .addGap(56, 56, 56)
+                .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,18 +194,21 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(DeleteButton)
-                        .addComponent(EditButton))
-                    .addComponent(AddButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(DeleteButton)
+                    .addComponent(EditButton)
+                    .addComponent(AddButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         DeleteButton.getAccessibleContext().setAccessibleName("");
@@ -280,16 +290,23 @@ public class MainScreen extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_formWindowClosing
 
-    private void SearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SearchFieldFocusGained
-       SearchField.setText("");
-    }//GEN-LAST:event_SearchFieldFocusGained
+    private void searchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusLost
+       if (searchField.getText().replaceAll("\\s+", "").equals ("")){
+            searchField.setText("Search...");
+       }
+    }//GEN-LAST:event_searchFieldFocusLost
 
-    private void SearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchFieldActionPerformed
-    }//GEN-LAST:event_SearchFieldActionPerformed
+    private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+           search(searchField.getText());
+       }
+    }//GEN-LAST:event_searchFieldKeyPressed
 
-    private void SearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SearchFieldFocusLost
-       SearchField.setText("Search...");
-    }//GEN-LAST:event_SearchFieldFocusLost
+    private void searchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusGained
+        if (searchField.getText().equals("Search...")){
+            searchField.setText("");
+        }
+    }//GEN-LAST:event_searchFieldFocusGained
     
     protected void addRecipe(String recipeName, String recipeInfo){
         PreparedStatement ps;
@@ -320,6 +337,32 @@ public class MainScreen extends javax.swing.JFrame {
     private void createEditFrame(String key){
         EditFrame editFrame = new EditFrame(this, key);
         editFrame.setVisible(true);
+    }
+    
+    private void search(String word){
+        PreparedStatement ps;
+        searchResultsField.setText("");
+        try{
+            ps = con.prepareStatement("SELECT * FROM (SELECT id FROM Recipe WHERE info LIKE ? UNION SELECT id FROM Recipe WHERE id LIKE ?)");
+            word =  "%" + word;
+            word = word + "%";
+            ps.setString(1, word);
+            ps.setString(2, word);
+            ResultSet rs = ps.executeQuery();
+            String results = "";
+            while (rs.next()){
+                String recipe = rs.getString("id");
+                results = results + recipe + "\n";
+            }
+            searchResultsField.setText(results);
+            if (searchResultsField.getText().equals("")){
+                searchResultsField.setText("No results found.");
+            }
+           
+            ps.close();
+        }catch(SQLException e){
+            System.out.println("Message: " + e.getMessage());
+        }
     }
     /**
      * @param args the command line arguments
@@ -362,13 +405,15 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JButton AddButton1;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EditButton;
-    private javax.swing.JTextField SearchField;
     private javax.swing.JEditorPane jEditorPane2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JList<String> recipeList;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JTextArea searchResultsField;
     // End of variables declaration//GEN-END:variables
 }

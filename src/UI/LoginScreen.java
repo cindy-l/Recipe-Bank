@@ -5,6 +5,7 @@
  */
 package UI;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -66,12 +67,25 @@ public class LoginScreen extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel3.setText("Password:");
 
+  
+
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameFieldKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(usernameField);
 
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
+            }
+        });
+
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
             }
         });
 
@@ -89,13 +103,15 @@ public class LoginScreen extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(loginButton)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
-                                .addComponent(jLabel1))))
+                                .addComponent(jLabel1)))
+                        .addGap(79, 79, 79))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(passwordField)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField))))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -132,7 +148,10 @@ public class LoginScreen extends javax.swing.JFrame {
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        if (connect(usernameField.getText().replaceAll("\\s", ""), String.valueOf(passwordField.getPassword()).replaceAll("\\s", ""))){
+        login();
+    }//GEN-LAST:event_loginButtonActionPerformed
+    private void login(){
+                if (connect(usernameField.getText().replaceAll("\\s", ""), String.valueOf(passwordField.getPassword()).replaceAll("\\s", ""))){
             dispose();
             createMainScreenFrame(con);
             try{
@@ -151,7 +170,19 @@ public class LoginScreen extends javax.swing.JFrame {
                 passwordField.setText("");
             }
         }
-    }//GEN-LAST:event_loginButtonActionPerformed
+    }
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+           login();
+       }
+    }//GEN-LAST:event_passwordFieldKeyPressed
+
+
+    private void usernameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_TAB){
+            passwordField.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_usernameFieldKeyPressed
     private void createMainScreenFrame(Connection con){
         MainScreen ms = new MainScreen(con);
         ms.setVisible(true);
